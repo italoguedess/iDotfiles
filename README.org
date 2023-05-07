@@ -4,25 +4,6 @@
 
 * Table of contents :toc:
 - [[i3wm]]
-  - [[About]]
-  - [[Color scheme]]
-  - [[Setting the wallpaper and executing the bar on startup]] 
-  - [[Setting the default font and some variables for easy access]]
-  - [[Configuring the workspaces]]
-  - [[Setting the gaps and configuring the borders]]
-  - [[Sometimes its useful to make a window float]]
-  - [[Naming the workspaces for faster access]]
-  - [[Keybindings for workspace switching]]
-  - [[Keybindings for moving containers between workspaces]]
-  - [[Resize windows mode]]
-  - [[Fast access to the main programs]]
-  - [[Changing focus between windows]]
-  - [[Moving windows inside a workspace]]
-  - [[Killing windows, reloading the config file, choosing how to split and fullscreen toggle]]
-  - [[Auto starting picom as the compositor]]
-  - [[dex, DesktopEntry Execution, is a program to generate and execute DesktopEntry files of the Application type]]
-  - [[Rofi]]
-  - [[Scratchpads are useful]]
 - [[Emacs]]
 - [[Polybar]]
 
@@ -30,6 +11,7 @@
 * i3wm
 The i3wm configuration files are stored in [[file:i3/i3.org]].
 * Emacs
+I have a repo dedicated for my emacs config ;) [[https://github.com/italoguedess/iMacs]]!
 
 * Polybar
 
