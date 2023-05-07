@@ -9,9 +9,11 @@
 
 
 * i3wm
-The i3wm configuration files are stored in [[file:i3/i3.org]].
+The i3wm configuration files are stored in [[file:i3/README.org]].
+
 * Emacs
 I have a repo dedicated for my emacs config ;) [[https://github.com/italoguedess/iMacs]]!
 
 * Polybar
+See [[file:polybar/README.org]].
 

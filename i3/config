@@ -67,8 +67,6 @@ set $browser_path /usr/bin/brave
 gaps inner 5
 gaps outer 5
 
-gaps top 40
-
 # show window title bars (not officially supported with i3gaps)
 default_border pixel
 default_floating_border pixel
