@@ -1,3 +1,5 @@
+# About
+
 #   _ _        _  ____   _____   _ ____                     
 #  (_) |      | |/ __ \ / ____| (_)___ \                    
 #   _| |_ __ _| | |  | | (___    _  __) |_      ___ __ ___  
@@ -6,6 +8,8 @@
 #  |_|\__\__,_|_|\____/|_____/  |_|____/  \_/\_/ |_| |_| |_|
 #
 # see http://i3wm.org/docs/userguide.html for the official i3 reference!
+
+# Color scheme
 
 # Defining colors variables:
 set $darkbluetrans	#458588
@@ -27,17 +31,15 @@ client.unfocused	    $darkblue	$darkblue	$grey		$purple		$darkgrey
 client.focused_inactive	$darkblue	$darkblue	$grey		$purple		$black
 client.urgent		    $urgentred	$urgentred	$white		$purple		$yellowbrown
 
-# Autostart apps as you like
-#exec --no-startup-id sleep 2 && xfce4-terminal
-#exec --no-startup-id sleep 7 && firefox https://github.com/endeavouros-team/endeavouros-i3wm-setup/blob/main/force-knowledge.md
-#exec --no-startup-id sleep 3 && thunar
-exec --no-startup-id xrandr --output HDMI-1 --scale 1.5x1.5
+# Setting the wallpaper and executing the bar on startup
 
-# set wallpaper
+# setting the wallpaper with feh
 exec_always feh --bg-fill $HOME/Pictures/wallpapers/jaden_crew.png
 
 # start polybar
 exec_always --no-startup-id sh $HOME/.config/polybar/launch
+
+# Setting the default font, mod key, and preferred applications
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -48,24 +50,12 @@ font pango: Jet Brains Mono:style=Bold 12
 # set the mod key to the winkey:
 set $mod Mod4
 
+set $editor emacs
 set $term kitty
 set $file_manager pcmanfm
+set $browser_path /usr/bin/brave
 
-# default i3 tiling mode:
-workspace_layout default
-
-# i3 stacking layout:
-# Each window will be fullscreen and tabbed top to bottom.
-# workspace_layout stacking
-
-# i3 tabbed layout:
-# Each new window will open fullscreen as a tab (left to right)
-# workspace_layout tabbed
-
-# change container layout (stacked, tabbed, toggle split)
-#bindsym $mod+s layout stacking
-bindsym $mod+g layout tabbed
-bindsym $mod+s layout toggle split
+# Setting the gaps and configuring the borders
 
 #border indicator on windows:
 # new_window pixel 0
@@ -87,6 +77,26 @@ for_window [all] border pixel
 # window title alignment
 title_align center
 
+# Layouts
+
+# default i3 tiling mode:
+workspace_layout default
+
+# i3 stacking layout:
+# Each window will be fullscreen and tabbed top to bottom.
+# workspace_layout stacking
+
+# i3 tabbed layout:
+# Each new window will open fullscreen as a tab (left to right)
+# workspace_layout tabbed
+
+# change container layout (stacked, tabbed, toggle split)
+#bindsym $mod+s layout stacking
+bindsym $mod+g layout tabbed
+bindsym $mod+s layout toggle split
+
+# Floating windows
+
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
@@ -95,6 +105,8 @@ bindsym $mod+Shift+space floating toggle
 
 # change focus between tiling / floating windows
 bindsym $mod+space focus mode_toggle
+
+# Naming the workspaces for faster access
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
@@ -108,6 +120,8 @@ set $ws7 "7"
 set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
+
+# Workspace switching
 
 # switch to workspace
 bindsym $mod+1    workspace  $ws1
@@ -145,6 +159,39 @@ bindcode $mod+Mod2+80 workspace $ws8
 bindcode $mod+Mod2+81 workspace $ws9
 bindcode $mod+Mod2+90 workspace $ws10
 
+# Changing focus between windows
+
+# change focus
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# focus the parent container
+bindsym $mod+a focus parent
+
+# Changing focus
+
+# move focused window
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# Moving between workspaces
+
 # move focused container to workspace
 bindsym $mod+Shift+1    move container to workspace  $ws1
 bindsym $mod+Shift+2    move container to workspace  $ws2
@@ -181,6 +228,46 @@ bindcode $mod+Shift+80 	 move container to workspace  $ws8
 bindcode $mod+Shift+81 	 move container to workspace  $ws9
 bindcode $mod+Shift+90 	 move container to workspace  $ws10
 
+# Killing and fullscreen toggle
+
+# kill focused window
+bindsym $mod+q kill
+
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle
+
+# Reloading the config file, choosing how to split
+
+# reload the configuration file
+bindsym $mod+Shift+c reload
+
+# restart i3 inplace (preserves your layout/session, can be used to update i3)
+bindsym $mod+Shift+r restart
+
+# split in horizontal orientation
+bindsym $mod+v split h
+
+# split in vertical orientation
+bindsym $mod+b split v
+
+# Scratchpads
+
+# Sway has a "scratchpad", which is a bag of holding for windows.
+# You can send windows there and get them back later.
+
+# Auto insert $term in the scratchpad workspace and show it
+for_window [title="scratchpad"] move window to scratchpad, scratchpad show
+exec $term --title scratchpad
+
+# Move the currently focused window to the scratchpad
+bindsym $mod+Shift+backslash move scratchpad
+
+# Show the next scratchpad window or hide the focused scratchpad window.
+# If there are multiple scratchpad windows, this command cycles through them.
+bindsym $mod+backslash scratchpad show
+
+# Resize mode
+
 # resize window (you can also use the mouse for that):
 mode "resize" {
 # These bindings trigger as soon as you enter the resize mode
@@ -206,8 +293,10 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-# start emacs
-bindsym $mod+e exec emacs
+# Fast access to the main programs
+
+# start selected editor
+bindsym $mod+e exec $editor
 
 # start the selected terminal
 bindsym $mod+Return exec $term
@@ -216,56 +305,15 @@ bindsym $mod+Return exec $term
 bindsym $mod+Shift+Return exec $file_manager
 
 # starts the brave browser
-bindsym $mod+w exec /usr/bin/brave
+bindsym $mod+w exec $browser_path
 
-# change focus
-bindsym $mod+h focus left
-bindsym $mod+j focus down
-bindsym $mod+k focus up
-bindsym $mod+l focus right
-
-# alternatively, you can use the cursor keys:
-bindsym $mod+Left focus left
-bindsym $mod+Down focus down
-bindsym $mod+Up focus up
-bindsym $mod+Right focus right
-
-# focus the parent container
-bindsym $mod+a focus parent
-
-# move focused window
-bindsym $mod+Shift+h move left
-bindsym $mod+Shift+j move down
-bindsym $mod+Shift+k move up
-bindsym $mod+Shift+l move right
-
-# alternatively, you can use the cursor keys:
-bindsym $mod+Shift+Left move left
-bindsym $mod+Shift+Down move down
-bindsym $mod+Shift+Up move up
-bindsym $mod+Shift+Right move right
-
-# kill focused window
-bindsym $mod+q kill
-
-# reload the configuration file
-bindsym $mod+Shift+c reload
-
-# restart i3 inplace (preserves your layout/session, can be used to update i3)
-bindsym $mod+Shift+r restart
-
-# split in horizontal orientation
-bindsym $mod+v split h
-
-# split in vertical orientation
-bindsym $mod+b split v
-
-# enter fullscreen mode for the focused container
-bindsym $mod+f fullscreen toggle
+# Picom as the compositor
 
 # picom: https://wiki.archlinux.org/title/Picom
 # manpage: https://man.archlinux.org/man/picom.1.en
 exec_always --no-startup-id killall picom && picom -b
+
+# dex, DesktopEntry Execution, is a program to generate and execute DesktopEntry files of the Application type
 
 # dex execute .desktop files
 # keep in mind that it can cause issues
@@ -275,18 +323,14 @@ exec_always --no-startup-id killall picom && picom -b
 #exec --no-startup-id dex -a -s /etc/xdg/autostart/:~/.config/autostart/
 exec --no-startup-id dex --autostart --environment i3
 
+# Rofi as the menu system
+
 bindsym $mod+d exec --no-startup-id rofi -show drun -theme Monokai -icon-theme "Tela-circle" -show-icons
 
-# Sway has a "scratchpad", which is a bag of holding for windows.
-# You can send windows there and get them back later.
+# Configuring the output with xrandr
 
-# Auto insert $term in the scratchpad workspace and show it
-for_window [title="scratchpad"] move window to scratchpad, scratchpad show
-exec $term --title scratchpad
-
-# Move the currently focused window to the scratchpad
-bindsym $mod+Shift+backslash move scratchpad
-
-# Show the next scratchpad window or hide the focused scratchpad window.
-# If there are multiple scratchpad windows, this command cycles through them.
-bindsym $mod+backslash scratchpad show
+# Autostart apps as you like
+#exec --no-startup-id sleep 2 && xfce4-terminal
+#exec --no-startup-id sleep 7 && firefox https://github.com/endeavouros-team/endeavouros-i3wm-setup/blob/main/force-knowledge.md
+#exec --no-startup-id sleep 3 && thunar
+exec --no-startup-id xrandr --output HDMI-1 --scale 1.5x1.5
