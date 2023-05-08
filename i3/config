@@ -37,7 +37,7 @@ client.urgent		    $urgentred	$urgentred	$white		$purple		$yellowbrown
 exec_always feh --bg-fill $HOME/Pictures/wallpapers/jaden_crew.png
 
 # start polybar
-exec_always --no-startup-id sh $HOME/.config/polybar/launch
+exec_always --no-startup-id sh $HOME/.config/polybar/launch.sh
 
 # Setting the default font, mod key, and preferred applications
 
