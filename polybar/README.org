@@ -22,7 +22,6 @@
   secondary = #8ABEB7
   alert = #A54242
   disabled = #707880
-
 #+end_src
 
 * Main bar
@@ -42,7 +41,7 @@
   border-size = 4pt
   border-color = #00000000
 
-  padding-left = 0
+  padding-left = 1
   padding-right = 1
 
   module-margin = 1
@@ -61,14 +60,13 @@
 
   enable-ipc = true
 
-  tray-position = center
+  tray-position = right
 
   ; wm-restack = generic
   ; wm-restack = bspwm
   ; wm-restack = i3
 
   ; override-redirect = true
-
 #+end_src
 
 * Modules
@@ -177,5 +175,4 @@
   pseudo-transparency = true
 
   ; vim:ft=dosini
-
 #+end_src
