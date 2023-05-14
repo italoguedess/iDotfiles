@@ -211,7 +211,7 @@
   format-prefix = ""
   format-prefix-foreground = ${Everforest.yellow}
   format-foreground = ${Everforest.fg}
-  label = %percentage_used:2%%
+  label = %percentage_used%%
   label-padding = 1
 #+end_src
 
@@ -223,7 +223,7 @@
   format-prefix = "󰍛"
   format-prefix-foreground = ${Everforest.green}
   format-foreground = ${Everforest.fg}
-  label = %percentage:2%%
+  label = %percentage%%
   label-padding = 1
 #+end_src
 
