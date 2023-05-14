@@ -1,7 +1,7 @@
 #+property: header-args :tangle config.ini :comments org
 
-* Color scheme
-#+begin_src dot 
+* About
+#+begin_src dot
   ;   _             _       _                
   ;  (_)           | |     | |               
   ;   _ _ __   ___ | |_   _| |__   __ _ _ __ 
@@ -13,7 +13,12 @@
   ;
   ;   To learn more about how to configure Polybar
   ;   go to https://github.com/polybar/polybar
+#+end_src
 
+* Color schemes
+** default polybar color scheme
+#+begin_src dot 
+  ; default color scheme polybar uses 
   [colors]
   background = #282A2E
   background-alt = #373B41
@@ -22,7 +27,10 @@
   secondary = #8ABEB7
   alert = #A54242
   disabled = #707880
+#+end_src
 
+** Everforest
+#+begin_src dot
   [Everforest]
   bg_dim = #1E2326
   bg0 = #272E33
@@ -260,4 +268,17 @@
   label = %date%
   label-padding = 1
   label-foreground = ${Everforest.fg}
+#+end_src
+
+* launch script
+#+begin_src shell :tangle launch.sh :shebang #!/usr/env/bin bash
+  # Terminate already running bar instances
+  killall -q polybar
+  # If all your bars have ipc enabled, you can also use
+  # polybar-msg cmd quit
+
+  # Launch Polybar, using default config location ~/.config/polybar/config.ini
+  polybar main 2>&1 | tee -a /tmp/polybar.log & disown
+
+  echo "Polybar launched..."
 #+end_src

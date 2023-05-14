@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/env/bin bash
+# launch script
 
 # Terminate already running bar instances
 killall -q polybar
