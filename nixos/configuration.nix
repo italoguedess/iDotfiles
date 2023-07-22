@@ -53,9 +53,9 @@ i18n.extraLocaleSettings = {
 services.xserver.enable = true;
 
 # Enabling sddm as the display manager
-services.xserver.displayManager.sddm.enable = true;
+services.xserver.displayManager.lightdm.enable = true;
 # Plasma desktop
-services.xserver.desktopManager.plasma5.enable = false;
+services.xserver.desktopManager.plasma5.enable = true;
 # i3-gaps-rounded
 services.xserver.windowManager.i3.enable = true;
 services.xserver.windowManager.i3.package = pkgs.i3-rounded;
