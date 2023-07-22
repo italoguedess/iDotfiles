@@ -6,6 +6,7 @@
 - [[i3wm]]
 - [[Emacs]]
 - [[Polybar]]
+- [[NixOS]]
 
 
 * i3wm
@@ -16,4 +17,7 @@ I have a repo dedicated for my emacs config ;) [[https://github.com/italoguedess
 
 * Polybar
 See [[file:polybar/README.org]].
+
+* NixOS
+See [[file:nixos/README.org]]
 

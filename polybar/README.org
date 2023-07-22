@@ -85,7 +85,7 @@
   font-1 = "Symbols Nerd Font:size=10;2"
 
   modules-left = i3 xwindow
-  modules-center = 
+  modules-center = xworkspaces
   modules-right = pulseaudio memory cpu date
 
   cursor-click = pointer
@@ -130,6 +130,33 @@
   label-unfocused = %index%
   label-unfocused-foreground = ${Everforest.fg}
   label-unfocused-padding = 1
+#+end_src
+
+** xworkspaces
+#+begin_src dot
+[module/ewmh]
+type = internal/xworkspaces
+
+; Only show workspaces defined on the same output as the bar
+;
+; Useful if you want to show monitor specific workspaces
+; on different bars
+;
+; Default: false
+pin-workspaces = true
+
+; Create click handler used to focus desktop
+; Default: true
+enable-click = false
+
+; Create scroll handlers used to cycle desktops
+; Default: true
+enable-scroll = false
+
+; Reverse the scroll direction
+; Default: false
+; New in version 3.6.0
+reverse-scroll = true
 #+end_src
 
 ** xwindow
@@ -271,9 +298,9 @@
 * launch script
 #+begin_src shell :tangle launch.sh :shebang #!/usr/env/bin bash
   # Terminate already running bar instances
-  killall -q polybar
+  # killall -q polybar
   # If all your bars have ipc enabled, you can also use
-  # polybar-msg cmd quit
+  polybar-msg cmd quit
 
   # Launch Polybar, using default config location ~/.config/polybar/config.ini
   polybar main 2>&1 | tee -a /tmp/polybar.log & disown

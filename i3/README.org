@@ -59,7 +59,7 @@
   set $editor emacs
   set $term kitty
   set $file_manager pcmanfm
-  set $browser_path /usr/bin/brave
+  set $browser_path brave
 #+end_src
 
 ** Setting the gaps and configuring the borders
@@ -73,11 +73,14 @@
   # Set inner/outer gaps
   gaps inner 5
   gaps outer 5
+  border_radius 10
 
   # show window title bars (not officially supported with i3gaps)
   default_border pixel
   default_floating_border pixel
   for_window [all] border pixel
+  # You can also use any non-zero value if you'd like to have a border
+  for_window [class=".*"] border pixel 0
 
   # window title alignment
   title_align center
@@ -253,13 +256,16 @@
 
 #+end_src
 * i3 management
-** Reloading the config file, choosing how to split
+** Reloading the config file, quitting i3, choosing how to split
 #+begin_src dot
   # reload the configuration file
   bindsym $mod+Shift+c reload
 
   # restart i3 inplace (preserves your layout/session, can be used to update i3)
   bindsym $mod+Shift+r restart
+
+  # exit i3 (logs you out of your X session)
+  bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
   # split in horizontal orientation
   bindsym $mod+v split h
