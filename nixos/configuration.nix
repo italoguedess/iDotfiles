@@ -15,8 +15,14 @@
 # Bootloader, networking and timezone/locale
 
 # Bootloader.
-boot.loader.systemd-boot.enable = true;
-boot.loader.efi.canTouchEfiVariables = true;
+# boot.loader.systemd-boot.enable = true;
+# boot.loader.efi.canTouchEfiVariables = true;
+# Grub for dual boot reasons
+boot.loader.grub.enable = true;
+boot.loader.grub.device = "nodev";
+boot.loader.grub.useOSProber = true;
+# if you dual boot with windows this fixes the clock
+time.hardwareClockInLocalTime = true;
 
 networking.hostName = "nixos"; # Define your hostname.
 # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -29,8 +35,8 @@ networking.hostName = "nixos"; # Define your hostname.
 networking.networkmanager.enable = true;
 programs.nm-applet.enable = true;
 
-  # Set your time zone.
-time.timeZone = "America/Fortaleza";
+# Set your time zone.
+time.timeZone = "America/Sao_Paulo";
 
 # Select internationalisation properties.
 i18n.defaultLocale = "en_US.UTF-8";
@@ -53,7 +59,7 @@ i18n.extraLocaleSettings = {
 services.xserver.enable = true;
 
 # Enabling sddm as the display manager
-services.xserver.displayManager.lightdm.enable = true;
+services.xserver.displayManager.sddm.enable = true;
 # Plasma desktop
 services.xserver.desktopManager.plasma5.enable = true;
 # i3-gaps-rounded
@@ -77,9 +83,8 @@ console.keyMap = "br-abnt2";
 services.printing.enable = true;
 
 # Enable sound with pipewire.
-sound.enable = true;
-hardware.pulseaudio.enable = false;
-security.rtkit.enable = true;
+# sound.enable = true; apparently this can cause issues with pipewire
+security.rtkit.enable = true; # optional but recommended
 services.pipewire = {
   enable = true;
   alsa.enable = true;
@@ -106,7 +111,7 @@ users.users.user = {
   description = "user";
   extraGroups = [ "networkmanager" "wheel" ];
   packages = with pkgs; [
-    vim 
+    vim
     emacs
     polybarFull
     redshift
@@ -114,8 +119,8 @@ users.users.user = {
     kitty
     brave
     rofi
-    picom
     htop
+    feh
   ];
 };
 
@@ -133,6 +138,7 @@ nixpkgs.config.allowUnfree = true;
 # List packages installed in system profile. To search, run:
 # $ nix search wget
 environment.systemPackages = with pkgs; [
+  picom
 ];
 
 # adding some fonts
