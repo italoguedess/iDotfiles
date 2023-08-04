@@ -109,20 +109,6 @@
     (label :class "label":text label)
     (label :class "value":text timevar)))
 
-;; circle fonts
-
-(defwidget lh-circle-bg2 []
-  (box :class "lh-circle-bg2"
-       :orientation "h"
-       :space-evenly true
-    (label :text "")))
-
-(defwidget rh-circle-bg2 []
-  (box :class "rh-circle-bg2"
-       :orientation "h"
-       :space-evenly true
-    (label :text "")))
-
 ;; listens
 
 (deflisten music :initial ""

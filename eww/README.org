@@ -123,21 +123,6 @@
       (label :class "value":text timevar)))
 #+end_src
 
-*** circle fonts
-#+begin_src dot
-  (defwidget lh-circle-bg2 []
-    (box :class "lh-circle-bg2"
-	 :orientation "h"
-	 :space-evenly true
-      (label :text "")))
-
-  (defwidget rh-circle-bg2 []
-    (box :class "rh-circle-bg2"
-	 :orientation "h"
-	 :space-evenly true
-      (label :text "")))
-#+end_src
-
 ** listens
 #+begin_src dot
   (deflisten music :initial ""
