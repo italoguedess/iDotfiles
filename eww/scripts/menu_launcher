@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# menu launcher
+# :properties:
+# :header-args: :tangle scripts/menu_launcher :comments org :shebang #!/usr/bin/env bash
+# :end:
+
+;; .__                        
+;; |__| ______  _  ____  _  __
+;; |  |/ __ \ \/ \/ /\ \/ \/ /
+;; |  \  ___/\     /  \     / 
+;; |__|\___  >\/\_/    \/\_/  
+;;         \/                 
+
+;;   Made by Italo Guedes (Github @italoguedess) as
+;;   a part of italOS (Github @italoguedess/italOS).
+;;   workspace script heavily based on:
+;;   https://github.com/saimoomedits/eww-widgets
+;;   https://github.com/rxyhn/tokyo
+
+hyprctl dispatch exec kitty

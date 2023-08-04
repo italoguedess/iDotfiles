@@ -1,0 +1,434 @@
+* eww.yuck
+:properties:
+:header-args: :tangle eww.yuck :comments org
+:end:
+** About
+#+begin_src dot
+  ;; .__                        
+  ;; |__| ______  _  ____  _  __
+  ;; |  |/ __ \ \/ \/ /\ \/ \/ /
+  ;; |  \  ___/\     /  \     / 
+  ;; |__|\___  >\/\_/    \/\_/  
+  ;;         \/                 
+
+  ;;   Made by Italo Guedes (Github @italoguedess) as
+  ;;   a part of italOS (Github @italoguedess/italOS).
+  ;;   workspace script heavily based on:
+  ;;   https://github.com/saimoomedits/eww-widgets
+  ;;   https://github.com/rxyhn/tokyo
+
+#+end_src
+
+** widgets
+*** bar
+#+begin_src dot
+  (defwidget bar []
+    (box :orientation "h"
+	 :class "bar_class"
+      (left)
+      (center)
+      (right)))
+
+  (defwidget left []
+    (box :orientation "h"
+	 :space-evenly false
+	 :halign "start"
+	 :class "left_modules"
+	 (menu)))
+
+  (defwidget center []
+    (box :orientation "h"
+	 :space-evenly false
+	 :halign "center"
+	 :class "center_modules"
+	 (workspaces)))
+
+  (defwidget right []
+    (box :orientation "h"
+	 :space-evenly false
+	 :halign "end"
+	 :class "right_modules"
+	 (sidestuff)))
+#+end_src
+
+*** menu
+#+begin_src dot
+  (defwidget menu []
+    (box (button :class "menu" :onclick "scripts/menu_launcher" "󱄅")))
+#+end_src
+
+*** sidestuff
+#+begin_src dot
+  (defwidget sidestuff []
+    (box :class "sidestuff" :orientation "h" :space-evenly true :halign "end" :spacing 0
+      (metric :label "󰕾"
+	      :value volume
+	      :onchange "")
+	      ;; :onchange "amixer -D pulse sset Master {}%")
+      (metric :label ""
+	      :value {round(EWW_RAM.used_mem_perc, 0)}
+	      :onchange "")
+      (metric :label ""
+	      :value {round(EWW_CPU.avg, 0)}
+	      :onchange "")
+      (metric :label "󰨣"
+	      :value {round((1 - (EWW_DISK["/"].free / EWW_DISK["/"].total)) * 100, 0)}
+	      :onchange "")
+      (time :label "󰥔"
+	    :value timevar)))
+#+end_src
+
+*** workspaces
+#+begin_src dot
+  (defwidget workspaces []
+    (literal :content workspacespoll)) 
+#+end_src
+
+*** music
+#+begin_src dot
+  (defwidget music []
+    (box :class "music"
+	 :orientation "h"
+	 :space-evenly false
+	 :halign "start"
+      {music != "" ? "🎵${music}" : ""}))
+#+end_src
+
+*** metric
+#+begin_src dot
+  (defwidget metric [label value onchange]
+    (box :orientation "h"
+	 :class "metric"
+	 :space-evenly false
+      (box :class "label" label)
+      (label :class "value" :text "${value}%")))
+	     ;; :active {onchange != ""}
+	     ;; :value value
+	     ;; :onchange onchange)))
+
+      ;; (scale :min 0
+      ;;        :max 101
+      ;;        :active {onchange != ""}
+      ;;        :value value
+      ;;        :onchange onchange)))
+#+end_src
+
+*** time
+#+begin_src dot
+  (defwidget time [label value]
+    (box :class "time"
+	 :orientation "h"  
+	 :space-evenly false
+      (label :class "label":text label)
+      (label :class "value":text timevar)))
+#+end_src
+
+*** circle fonts
+#+begin_src dot
+  (defwidget lh-circle-bg2 []
+    (box :class "lh-circle-bg2"
+	 :orientation "h"
+	 :space-evenly true
+      (label :text "")))
+
+  (defwidget rh-circle-bg2 []
+    (box :class "rh-circle-bg2"
+	 :orientation "h"
+	 :space-evenly true
+      (label :text "")))
+#+end_src
+
+** listens
+#+begin_src dot
+  (deflisten music :initial ""
+    "playerctl --follow metadata --format '{{ artist }} - {{ title }}' || true")
+#+end_src
+
+** polls
+#+begin_src dot
+  (defpoll volume :interval "1s"
+    "scripts/getvol")
+
+  (defpoll timevar :interval "10s"
+    "date '+%H:%M'")
+
+  (defpoll workspacespoll :interval "0.1s"
+    "scripts/workspaces")
+#+end_src
+
+** windows
+#+begin_src dot
+  (defwindow bar
+    :monitor 0
+    :windowtype "dock"
+    :geometry (geometry :x "0%"
+			:y "1%"
+			:width "100%"
+			:height "25px"
+			:anchor "top center")
+    :reserve (struts :side "top" :distance "4%")
+    :stacking "fg"
+    :exclusive true
+    (bar))
+#+end_src
+
+* eww.scss
+:properties:
+:header-args: :tangle eww.scss :comments org
+:end:
+** About
+#+begin_src dot
+  // .__                        
+  // |__| ______  _  ____  _  __
+  // |  |/ __ \ \/ \/ /\ \/ \/ /
+  // |  \  ___/\     /  \     / 
+  // |__|\___  >\/\_/    \/\_/  
+  //         \/                 
+
+  //   Made by Italo Guedes (Github @italoguedess) as
+  //   a part of italOS (Github @italoguedess/italOS).
+  //   workspace script heavily based on:
+  //   https://github.com/saimoomedits/eww-widgets
+  //   https://github.com/rxyhn/tokyo
+
+#+end_src
+
+** Everforest
+#+begin_src dot
+  $bg_dim: #1E2326;
+  $bg0: #272E33;
+  $bg1: #2E383C;
+  $bg2: #374145;
+  $bg3: #414B50;
+  $bg4: #495156;
+  $bg5: #4F5B58;
+  $bg_red: #4C3743;
+  $bg_visual: #493B40;
+  $bg_yellow: #45443C;
+  $bg_green: #3C4841;
+  $bg_blue: #384B55;
+  $red: #E67E80;
+  $orange: #E69875;
+  $yellow: #DBBC7F;
+  $green: #A7C080;
+  $blue: #7FBBB3;
+  $aqua: #83C092;
+  $purple: #D699B6;
+  $fg: #D3C6AA;
+  $gray0: #7A8478;
+  $gray1: #859289;
+  $gray2: #9DA9A0;
+#+end_src
+
+** *
+#+begin_src dot
+  * {
+    all: unset; //Unsets everything so you can style everything from scratch
+    font-family: JetBrains Mono;
+  }
+
+  .bar_class {
+    background-color: rgba(0, 0, 0, 1); // 100% transparency
+  }
+
+  .center_modules, .right_modules, .left_modules {
+    color: #859289;
+    background-color: $bg2;
+    color: $gray1;
+    padding: 0 15px 0 15px;
+    border: 5px solid #374145;
+    border-radius: 15px 50px;
+  }
+#+end_src
+
+** menu
+#+begin_src dot
+  .menu {
+    color: $blue;
+    font-size: 18px;
+  }
+#+end_src
+
+** sidestuff
+#+begin_src dot
+.sidestuff {
+  padding-right: 0px;
+}
+#+end_src
+
+** workspaces
+#+begin_src dot
+  .workspaces button:hover {
+    color: #7FBBB3;
+  }
+
+  // focused workspaces
+  .011,
+  .022,
+  .033,
+  .044,
+  .055,
+  .066,
+  .077,
+  .088,
+  .0-999 {
+    color: $blue;
+  }
+
+  // ocupied but not focused workspaces
+  // workspace 9 class looks funny because hyprland
+  // gives the special workspace id -99
+  .01, .02, .03, .04, .05, .06, .07, .08, .0-99 {
+    color: $gray1;
+  }
+
+  // unnocupied workspaces
+  .0, .0-99 {
+    color: $gray0;
+  }
+#+end_src
+
+** value
+#+begin_src dot
+  .value {
+    padding: 0 10px 0 10px;
+  }
+#+end_src
+
+* scripts
+** workspaces
+:properties:
+:header-args: :tangle scripts/workspaces :comments org :shebang #!/usr/bin/env bash
+:end:
+
+This script basically gives the workspace eww widget css classes as we interact with
+hyprland through hyprctl. Through the classes we can then customize the widget
+appearence dinamically.
+#+begin_src bash
+  # .__                        
+  # |__| ______  _  ____  _  __
+  # |  |/ __ \ \/ \/ /\ \/ \/ /
+  # |  \  ___/\     /  \     / 
+  # |__|\___  >\/\_/    \/\_/  
+  #         \/                 
+
+  #   Made by Italo Guedes (Github @italoguedess) as
+  #   a part of italOS (Github @italoguedess/italOS).
+  #   workspace script heavily based on:
+  #   https://github.com/saimoomedits/eww-widgets
+  #   https://github.com/rxyhn/tokyo
+
+  workspaces() {
+  ws1=1
+  ws2=2
+  ws3=3
+  ws4=4
+  ws5=5
+  ws6=6
+  ws7=7
+  ws8=8
+  ws9=9
+
+  # Unoccupied
+  un="0"
+
+  # check if occupied
+  o1=$(hyprctl workspaces -j | awk '/id/ {print $2}' | cut -d',' -f1 | grep "$ws1")
+  o2=$(hyprctl workspaces -j | awk '/id/ {print $2}' | cut -d',' -f1 | grep "$ws2")
+  o3=$(hyprctl workspaces -j | awk '/id/ {print $2}' | cut -d',' -f1 | grep "$ws3")
+  o4=$(hyprctl workspaces -j | awk '/id/ {print $2}' | cut -d',' -f1 | grep "$ws4")
+  o5=$(hyprctl workspaces -j | awk '/id/ {print $2}' | cut -d',' -f1 | grep "$ws5")
+  o6=$(hyprctl workspaces -j | awk '/id/ {print $2}' | cut -d',' -f1 | grep "$ws6")
+  o7=$(hyprctl workspaces -j | awk '/id/ {print $2}' | cut -d',' -f1 | grep "$ws7")
+  o8=$(hyprctl workspaces -j | awk '/id/ {print $2}' | cut -d',' -f1 | grep "$ws8")
+  o9=$(hyprctl workspaces -j | awk '/id/ {print $2; exit}' | cut -d',' -f1 | grep "$ws9")
+
+  # check if focused
+  f1=$(hyprctl activeworkspace -j | awk '/id/ {print $2}' | cut -d',' -f1 | grep "$ws1")
+  f2=$(hyprctl activeworkspace -j | awk '/id/ {print $2}' | cut -d',' -f1 | grep "$ws2")
+  f3=$(hyprctl activeworkspace -j | awk '/id/ {print $2}' | cut -d',' -f1 | grep "$ws3")
+  f4=$(hyprctl activeworkspace -j | awk '/id/ {print $2}' | cut -d',' -f1 | grep "$ws4")
+  f5=$(hyprctl activeworkspace -j | awk '/id/ {print $2}' | cut -d',' -f1 | grep "$ws5")
+  f6=$(hyprctl activeworkspace -j | awk '/id/ {print $2}' | cut -d',' -f1 | grep "$ws6")
+  f7=$(hyprctl activeworkspace -j | awk '/id/ {print $2}' | cut -d',' -f1 | grep "$ws7")
+  f8=$(hyprctl activeworkspace -j | awk '/id/ {print $2}' | cut -d',' -f1 | grep "$ws8")
+  f9=$(hyprctl activeworkspace -j | awk '/id/ {print $2; exit}' | cut -d',' -f1 | grep "$ws9")
+
+  # check if urgent
+  # u1=$(bspc query -D -d .urgent --names | grep 1)
+  # u2=$(bspc query -D -d .urgent --names | grep 2)
+  # u3=$(bspc query -D -d .urgent --names | grep 3)
+  # u4=$(bspc query -D -d .urgent --names | grep 4)
+  # u5=$(bspc query -D -d .urgent --names | grep 5)
+
+  # icons
+  ic_1=""
+  ic_2=""
+  ic_3=""
+  ic_4=""
+  ic_5=""
+  ic_6=""
+  ic_7=""
+  ic_8=""
+  ic_9=""
+  if [ $f1 ]; then
+      ic_1=""
+  elif [ $f2 ]; then
+      ic_2=""
+  elif [ $f3 ]; then
+      ic_3=""
+  elif [ $f4 ]; then
+      ic_4=""
+  elif [ $f5 ]; then
+      ic_5=""
+  elif [ $f6 ]; then
+      ic_6=""
+  elif [ $f7 ]; then
+      ic_7=""
+  elif [ $f8 ]; then
+      ic_8=""
+  elif [ $f9 ]; then
+      ic_9=""
+  fi
+
+  echo "(box :class 'workspaces'
+	     :orientation 'h'
+	     :space-evenly true
+	     :halign 'start'
+	     :spacing 15
+	(button :class \"$un$o1$f1\" :onclick 'hyprctl dispatch workspace 1' \"$ic_1\") 
+	(button :class \"$un$o2$f2\" :onclick 'hyprctl dispatch workspace 2' \"$ic_2\") 
+	(button :class \"$un$o3$f3\" :onclick 'hyprctl dispatch workspace 3' \"$ic_3\") 
+	(button :class \"$un$o4$f4\" :onclick 'hyprctl dispatch workspace 4' \"$ic_4\") 
+	(button :class \"$un$o5$f5\" :onclick 'hyprctl dispatch workspace 5' \"$ic_5\") 
+	(button :class \"$un$o6$f6\" :onclick 'hyprctl dispatch workspace 6' \"$ic_6\") 
+	(button :class \"$un$o7$f7\" :onclick 'hyprctl dispatch workspace 7' \"$ic_7\") 
+	(button :class \"$un$o8$f8\" :onclick 'hyprctl dispatch workspace 8' \"$ic_8\") 
+	(button :class \"$un$o9$f9\" :onclick 'hyprctl dispatch workspace 9' \"$ic_9\"))"
+  }
+
+  workspaces
+#+end_src
+
+#+RESULTS:
+
+** menu launcher
+:properties:
+:header-args: :tangle scripts/menu_launcher :comments org :shebang #!/usr/bin/env bash
+:end:
+#+begin_src bash
+  ;; .__                        
+  ;; |__| ______  _  ____  _  __
+  ;; |  |/ __ \ \/ \/ /\ \/ \/ /
+  ;; |  \  ___/\     /  \     / 
+  ;; |__|\___  >\/\_/    \/\_/  
+  ;;         \/                 
+
+  ;;   Made by Italo Guedes (Github @italoguedess) as
+  ;;   a part of italOS (Github @italoguedess/italOS).
+  ;;   workspace script heavily based on:
+  ;;   https://github.com/saimoomedits/eww-widgets
+  ;;   https://github.com/rxyhn/tokyo
+
+  hyprctl dispatch exec kitty
+#+end_src

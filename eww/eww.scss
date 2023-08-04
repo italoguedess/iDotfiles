@@ -1,0 +1,110 @@
+// About
+
+// .__                        
+// |__| ______  _  ____  _  __
+// |  |/ __ \ \/ \/ /\ \/ \/ /
+// |  \  ___/\     /  \     / 
+// |__|\___  >\/\_/    \/\_/  
+//         \/                 
+
+//   Made by Italo Guedes (Github @italoguedess) as
+//   a part of italOS (Github @italoguedess/italOS).
+//   workspace script heavily based on:
+//   https://github.com/saimoomedits/eww-widgets
+//   https://github.com/rxyhn/tokyo
+
+// Everforest
+
+$bg_dim: #1E2326;
+$bg0: #272E33;
+$bg1: #2E383C;
+$bg2: #374145;
+$bg3: #414B50;
+$bg4: #495156;
+$bg5: #4F5B58;
+$bg_red: #4C3743;
+$bg_visual: #493B40;
+$bg_yellow: #45443C;
+$bg_green: #3C4841;
+$bg_blue: #384B55;
+$red: #E67E80;
+$orange: #E69875;
+$yellow: #DBBC7F;
+$green: #A7C080;
+$blue: #7FBBB3;
+$aqua: #83C092;
+$purple: #D699B6;
+$fg: #D3C6AA;
+$gray0: #7A8478;
+$gray1: #859289;
+$gray2: #9DA9A0;
+
+// *
+
+* {
+  all: unset; //Unsets everything so you can style everything from scratch
+  font-family: JetBrains Mono;
+}
+
+.bar_class {
+  background-color: rgba(0, 0, 0, 1); // 100% transparency
+}
+
+.center_modules, .right_modules, .left_modules {
+  color: #859289;
+  background-color: $bg2;
+  color: $gray1;
+  padding: 0 15px 0 15px;
+  border: 5px solid #374145;
+  border-radius: 15px 50px;
+}
+
+// menu
+
+.menu {
+  color: $blue;
+  font-size: 18px;
+}
+
+// sidestuff
+
+.sidestuff {
+  padding-right: 0px;
+}
+
+// workspaces
+
+.workspaces button:hover {
+  color: #7FBBB3;
+}
+
+// focused workspaces
+.011,
+.022,
+.033,
+.044,
+.055,
+.066,
+.077,
+.088,
+.0-999 {
+  color: $blue;
+}
+
+// ocupied but not focused workspaces
+// workspace 9 class looks funny because hyprland
+// gives the special workspace id -99
+.01, .02, .03, .04, .05, .06, .07, .08, .0-99 {
+  color: $gray1;
+}
+
+// unnocupied workspaces
+.0, .0-99 {
+  color: $gray0;
+}
+
+// value
+
+.value {
+  padding: 0 10px 0 10px;
+}

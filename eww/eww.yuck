@@ -1,0 +1,155 @@
+;; About
+
+;; .__                        
+;; |__| ______  _  ____  _  __
+;; |  |/ __ \ \/ \/ /\ \/ \/ /
+;; |  \  ___/\     /  \     / 
+;; |__|\___  >\/\_/    \/\_/  
+;;         \/                 
+
+;;   Made by Italo Guedes (Github @italoguedess) as
+;;   a part of italOS (Github @italoguedess/italOS).
+;;   workspace script heavily based on:
+;;   https://github.com/saimoomedits/eww-widgets
+;;   https://github.com/rxyhn/tokyo
+
+;; bar
+
+(defwidget bar []
+  (box :orientation "h"
+       :class "bar_class"
+    (left)
+    (center)
+    (right)))
+
+(defwidget left []
+  (box :orientation "h"
+       :space-evenly false
+       :halign "start"
+       :class "left_modules"
+       (menu)))
+
+(defwidget center []
+  (box :orientation "h"
+       :space-evenly false
+       :halign "center"
+       :class "center_modules"
+       (workspaces)))
+
+(defwidget right []
+  (box :orientation "h"
+       :space-evenly false
+       :halign "end"
+       :class "right_modules"
+       (sidestuff)))
+
+;; menu
+
+(defwidget menu []
+  (box (button :class "menu" :onclick "scripts/menu_launcher" "󱄅")))
+
+;; sidestuff
+
+(defwidget sidestuff []
+  (box :class "sidestuff" :orientation "h" :space-evenly true :halign "end" :spacing 0
+    (metric :label "󰕾"
+	    :value volume
+	    :onchange "")
+	    ;; :onchange "amixer -D pulse sset Master {}%")
+    (metric :label ""
+	    :value {round(EWW_RAM.used_mem_perc, 0)}
+	    :onchange "")
+    (metric :label ""
+	    :value {round(EWW_CPU.avg, 0)}
+	    :onchange "")
+    (metric :label "󰨣"
+	    :value {round((1 - (EWW_DISK["/"].free / EWW_DISK["/"].total)) * 100, 0)}
+	    :onchange "")
+    (time :label "󰥔"
+	  :value timevar)))
+
+;; workspaces
+
+(defwidget workspaces []
+  (literal :content workspacespoll))
+
+;; music
+
+(defwidget music []
+  (box :class "music"
+       :orientation "h"
+       :space-evenly false
+       :halign "start"
+    {music != "" ? "🎵${music}" : ""}))
+
+;; metric
+
+(defwidget metric [label value onchange]
+  (box :orientation "h"
+       :class "metric"
+       :space-evenly false
+    (box :class "label" label)
+    (label :class "value" :text "${value}%")))
+	   ;; :active {onchange != ""}
+	   ;; :value value
+	   ;; :onchange onchange)))
+
+    ;; (scale :min 0
+    ;;        :max 101
+    ;;        :active {onchange != ""}
+    ;;        :value value
+    ;;        :onchange onchange)))
+
+;; time
+
+(defwidget time [label value]
+  (box :class "time"
+       :orientation "h"  
+       :space-evenly false
+    (label :class "label":text label)
+    (label :class "value":text timevar)))
+
+;; circle fonts
+
+(defwidget lh-circle-bg2 []
+  (box :class "lh-circle-bg2"
+       :orientation "h"
+       :space-evenly true
+    (label :text "")))
+
+(defwidget rh-circle-bg2 []
+  (box :class "rh-circle-bg2"
+       :orientation "h"
+       :space-evenly true
+    (label :text "")))
+
+;; listens
+
+(deflisten music :initial ""
+  "playerctl --follow metadata --format '{{ artist }} - {{ title }}' || true")
+
+;; polls
+
+(defpoll volume :interval "1s"
+  "scripts/getvol")
+
+(defpoll timevar :interval "10s"
+  "date '+%H:%M'")
+
+(defpoll workspacespoll :interval "0.1s"
+  "scripts/workspaces")
+
+;; windows
+
+(defwindow bar
+  :monitor 0
+  :windowtype "dock"
+  :geometry (geometry :x "0%"
+		      :y "1%"
+		      :width "100%"
+		      :height "25px"
+		      :anchor "top center")
+  :reserve (struts :side "top" :distance "4%")
+  :stacking "fg"
+  :exclusive true
+  (bar))
