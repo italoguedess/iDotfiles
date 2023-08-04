@@ -1,14 +1,17 @@
 #+property: header-args :tangle configuration.nix :comments org
 
 * About
-The configuration.nix file is used to configure [[https://nixos.org/][NixOS]].
-
-To use it in a NixOS installation do the following:
-- Backup your current config: ~sudo mv /etc/nixos/configuration.nix /etc/nixos/configurationbk.nix~;
-- Create a symlink to this file: ~sudo ln -s configuration.nix /etc/nixos/configuration.nix~;
-- Test the changes with ~nixos-rebuild test~;
-- Commit ~nixos-rebuild switch~.
-
+#+begin_src dot 
+  #  _ _   _ _      
+  # (_) \ | (_)     
+  #  _|  \| |___  __
+  # | | . ` | \ \/ /
+  # | | |\  | |>  < 
+  # |_\_| \_/_/_/\_\
+  #
+  #  Made by Italo Guedes (Github @italoguedess) as
+  #  a part of italOS (Github @italoguedess/italOS).
+#+end_src
 * Repository and hardware configuration
 #+begin_src dot
   # Edit this configuration file to define what should be installed on
@@ -28,14 +31,14 @@ To use it in a NixOS installation do the following:
 * Bootloader, networking and timezone/locale
 #+begin_src dot
   # Bootloader.
-  # boot.loader.systemd-boot.enable = true;
-  # boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
   # Grub for dual boot reasons
-  boot.loader.grub.enable = true;
-  boot.loader.grub.device = "nodev";
-  boot.loader.grub.useOSProber = true;
+  # boot.loader.grub.enable = true;
+  # boot.loader.grub.device = "nodev";
+  # boot.loader.grub.useOSProber = true;
   # if you dual boot with windows this fixes the clock
-  time.hardwareClockInLocalTime = true;
+  # time.hardwareClockInLocalTime = true;
 
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -68,18 +71,22 @@ To use it in a NixOS installation do the following:
 
 #+end_src
 
-* Display manager and Desktop environments/WMs
+* Display manager, Desktop environments, WMs and WCs
 #+begin_src dot
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
+  # Enable the X11 windowing system, sddm, plasma and i3-rounded.
+  services.xserver = { 
+    enable = true;
+    displayManager.sddm.enable = true;
+    desktopManager.plasma5.enable = true;
+    windowManager.i3.enable = true;
+    windowManager.i3.package = pkgs.i3-rounded;
+  };
 
-  # Enabling sddm as the display manager
-  services.xserver.displayManager.sddm.enable = true;
-  # Plasma desktop
-  services.xserver.desktopManager.plasma5.enable = true;
-  # i3-gaps-rounded
-  services.xserver.windowManager.i3.enable = true;
-  services.xserver.windowManager.i3.package = pkgs.i3-rounded;
+  # hyprland
+  programs.hyprland = { 
+    enable = true;
+    xwayland.enable = true;
+  };
 
 #+end_src
 
@@ -102,8 +109,8 @@ To use it in a NixOS installation do the following:
   services.printing.enable = true;
 
   # Enable sound with pipewire.
-  # sound.enable = true; apparently this can cause issues with pipewire
-  security.rtkit.enable = true; # optional but recommended
+  # sound.enable = true; # apparently this can cause issues with pipewire
+  # security.rtkit.enable = true; # optional but recommended
   services.pipewire = {
     enable = true;
     alsa.enable = true;
@@ -136,13 +143,16 @@ To use it in a NixOS installation do the following:
       vim
       emacs
       polybarFull
+      eww-wayland
       redshift
+      gammastep
       git
       kitty
       brave
       rofi
       htop
       feh
+      swaybg
     ];
   };
 

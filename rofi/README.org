@@ -1,0 +1,257 @@
+#+property: header-args :tangle italOS_theme.rasi :comments org
+
+* italOS_theme.rasi 
+#+begin_src dot
+  //  _______       __ _ 
+  // (_) ___ \     / _(_)
+  //  _| |_/ /___ | |_ _ 
+  // | |    // _ \|  _| |
+  // | | |\ \ (_) | | | |
+  // |_\_| \_\___/|_| |_|
+  //
+  // Made by Italo Guedes (Github @italoguedess) as
+  // a part of italOS (Github @italoguedess/italOS).
+  // 
+  // Forked from Aditya Shakya (Github: @adi1090x).
+#+end_src
+
+** Configuration
+#+begin_src dot
+configuration {
+	modi:                       "drun";  // run,filebrowser,window 
+    show-icons:                 true;
+    display-drun:               "";
+    // display-run:                "";
+    // display-filebrowser:        "";
+    // display-window:             "";
+	drun-display-format:        "{name}";
+	// window-format:              "{w} · {c} · {t}";
+}
+#+end_src
+
+** Global properties
+#+begin_src dot
+ * {
+    font:                        "JetBrains Mono 12";
+    background:                  #272E33; // bg0
+    background-alt:              #374145; // bg1
+    foreground:                  #D3C6AA; // fg
+    selected:                    #7FBBB3; // blue
+    active:                      #E67E80; // red
+    urgent:                      #DBBC7F; // yellow
+}
+#+end_src
+
+** Main Window
+#+begin_src dot
+window {
+    /* properties for window widget */
+    transparency:                "real";
+    location:                    center;
+    anchor:                      center;
+    fullscreen:                  false;
+    width:                       600px;
+    x-offset:                    0px;
+    y-offset:                    0px;
+
+    /* properties for all widgets */
+    enabled:                     true;
+    border-radius:               5px;
+    cursor:                      "default";
+    background-color:            @background;
+}
+#+end_src
+
+** Main box
+#+begin_src dot
+mainbox {
+    enabled:                     true;
+    spacing:                     0px;
+    background-color:            transparent;
+    orientation:                 vertical;
+    children:                    [ "inputbar", "listbox" ];
+}
+
+listbox {
+    spacing:                     20px;
+    padding:                     20px;
+    background-color:            transparent;
+    orientation:                 vertical;
+    children:                    [ "message", "listview" ];
+}
+#+end_src
+
+** Input bar
+#+begin_src dot
+inputbar {
+    enabled:                     true;
+    spacing:                     10px;
+    padding:                     20px 20px;
+    background-color:            transparent;
+    // background-image:            url("~/pictures/wallpapers/wall2.jpg", width);
+    text-color:                  @foreground;
+    orientation:                 horizontal;
+    children:                    [ "textbox-prompt-colon", "entry", "dummy", "mode-switcher" ];
+}
+textbox-prompt-colon {
+    enabled:                     false;
+    expand:                      false;
+    str:                         "󰩊";
+    padding:                     12px 15px;
+    border-radius:               0%;
+    background-color:            @background-alt;
+    text-color:                  inherit;
+}
+entry {
+    enabled:                     true;
+    expand:                      false;
+    width:                       560px;
+    padding:                     10px 0px;
+    border-radius:               5px;
+    background-color:            @background-alt;
+    text-color:                  inherit;
+    cursor:                      text;
+    placeholder:                 "";
+    placeholder-color:           inherit;
+}
+dummy {
+    expand:                      true;
+    background-color:            transparent;
+}
+#+end_src
+
+** Mode switcher
+#+begin_src dot
+mode-switcher{
+    enabled:                     false;
+    spacing:                     10px;
+    background-color:            transparent;
+    text-color:                  @foreground;
+}
+button {
+    width:                       50px;
+    padding:                     10px;
+    border-radius:               5px;
+    background-color:            @background-alt;
+    text-color:                  inherit;
+    cursor:                      pointer;
+}
+button selected {
+    background-color:            @background;
+    text-color:                  @background;
+}
+#+end_src
+
+** List view
+#+begin_src dot
+listview {
+    enabled:                     true;
+    columns:                     1;
+    lines:                       5;
+    cycle:                       true;
+    dynamic:                     true;
+    scrollbar:                   false;
+    layout:                      vertical;
+    reverse:                     false;
+    fixed-height:                true;
+    fixed-columns:               true;
+    
+    spacing:                     10px;
+    background-color:            transparent;
+    text-color:                  @foreground;
+    cursor:                      "default";
+}
+#+end_src
+
+** Elements
+#+begin_src dot
+element {
+    enabled:                     true;
+    spacing:                     10px;
+    padding:                     4px;
+    border-radius:               5px;
+    background-color:            transparent;
+    text-color:                  @foreground;
+    cursor:                      pointer;
+}
+element normal.normal {
+    background-color:            inherit;
+    text-color:                  inherit;
+}
+element normal.urgent {
+    background-color:            @urgent;
+    text-color:                  @background;
+}
+element normal.active {
+    background-color:            @active;
+    text-color:                  @background;
+}
+element selected.normal {
+    background-color:            @selected;
+    text-color:                  @background;
+}
+element selected.urgent {
+    background-color:            @urgent;
+    text-color:                  @background;
+}
+element selected.active {
+    background-color:            @urgent;
+    text-color:                  @background;
+}
+element-icon {
+    background-color:            transparent;
+    text-color:                  inherit;
+    size:                        32px;
+    cursor:                      inherit;
+}
+element-text {
+    background-color:            transparent;
+    text-color:                  inherit;
+    cursor:                      inherit;
+    vertical-align:              0.5;
+    horizontal-align:            0.0;
+}
+#+end_src
+
+** Message
+#+begin_src dot
+message {
+    background-color:            transparent;
+}
+textbox {
+    padding:                     12px;
+    border-radius:               0%;
+    background-color:            @background-alt;
+    text-color:                  @foreground;
+    vertical-align:              0.5;
+    horizontal-align:            0.0;
+}
+error-message {
+    padding:                     12px;
+    border-radius:               0px;
+    background-color:            @background;
+    text-color:                  @foreground;
+}
+
+#+end_src
+* launcher.sh
+#+begin_src bash :tangle launcher.sh :shebang #!/usr/bin/env bash
+  #!/usr/bin/env bash
+  #
+  ### Forked from:
+  ### Aditya Shakya
+  ### Github : @adi1090x
+  ##
+  ### Rofi   : Launcher (Modi Drun, Run, File Browser, Window)
+  ##
+  ### Ez.OS Style
+  ##
+  #
+  dir="$HOME/.config/rofi"
+  theme='italOS_theme'
+  #
+  ## Run
+  rofi \
+      -show drun \
+	  -theme ${dir}/${theme}.rasi
+#+end_src

@@ -1,3 +1,15 @@
+# About
+
+#  _ _   _ _      
+# (_) \ | (_)     
+#  _|  \| |___  __
+# | | . ` | \ \/ /
+# | | |\  | |>  < 
+# |_\_| \_/_/_/\_\
+#
+#  Made by Italo Guedes (Github @italoguedess) as
+#  a part of italOS (Github @italoguedess/italOS).
+
 # Repository and hardware configuration
 
 # Edit this configuration file to define what should be installed on
@@ -15,14 +27,14 @@
 # Bootloader, networking and timezone/locale
 
 # Bootloader.
-# boot.loader.systemd-boot.enable = true;
-# boot.loader.efi.canTouchEfiVariables = true;
+boot.loader.systemd-boot.enable = true;
+boot.loader.efi.canTouchEfiVariables = true;
 # Grub for dual boot reasons
-boot.loader.grub.enable = true;
-boot.loader.grub.device = "nodev";
-boot.loader.grub.useOSProber = true;
+# boot.loader.grub.enable = true;
+# boot.loader.grub.device = "nodev";
+# boot.loader.grub.useOSProber = true;
 # if you dual boot with windows this fixes the clock
-time.hardwareClockInLocalTime = true;
+# time.hardwareClockInLocalTime = true;
 
 networking.hostName = "nixos"; # Define your hostname.
 # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -53,18 +65,22 @@ i18n.extraLocaleSettings = {
   LC_TIME = "pt_BR.UTF-8";
 };
 
-# Display manager and Desktop environments/WMs
+# Display manager, Desktop environments, WMs and WCs
 
-# Enable the X11 windowing system.
-services.xserver.enable = true;
+# Enable the X11 windowing system, sddm, plasma and i3-rounded.
+services.xserver = { 
+  enable = true;
+  displayManager.sddm.enable = true;
+  desktopManager.plasma5.enable = true;
+  windowManager.i3.enable = true;
+  windowManager.i3.package = pkgs.i3-rounded;
+};
 
-# Enabling sddm as the display manager
-services.xserver.displayManager.sddm.enable = true;
-# Plasma desktop
-services.xserver.desktopManager.plasma5.enable = true;
-# i3-gaps-rounded
-services.xserver.windowManager.i3.enable = true;
-services.xserver.windowManager.i3.package = pkgs.i3-rounded;
+# hyprland
+programs.hyprland = { 
+  enable = true;
+  xwayland.enable = true;
+};
 
 # Keymap
 
@@ -83,8 +99,8 @@ console.keyMap = "br-abnt2";
 services.printing.enable = true;
 
 # Enable sound with pipewire.
-# sound.enable = true; apparently this can cause issues with pipewire
-security.rtkit.enable = true; # optional but recommended
+# sound.enable = true; # apparently this can cause issues with pipewire
+# security.rtkit.enable = true; # optional but recommended
 services.pipewire = {
   enable = true;
   alsa.enable = true;
@@ -114,13 +130,16 @@ users.users.user = {
     vim
     emacs
     polybarFull
+    eww-wayland
     redshift
+    gammastep
     git
     kitty
     brave
     rofi
     htop
     feh
+    swaybg
   ];
 };
 
