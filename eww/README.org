@@ -57,19 +57,14 @@
 #+begin_src dot
   (defwidget sidestuff []
     (box :class "sidestuff" :orientation "h" :space-evenly true :halign "end" :spacing 0
-      (metric :label "󰕾"
-	      :value volume
-	      :onchange "")
-	      ;; :onchange "amixer -D pulse sset Master {}%")
+      (volume :label "󰕾"
+	      :value volumepoll)
       (metric :label ""
-	      :value {round(EWW_RAM.used_mem_perc, 0)}
-	      :onchange "")
+	      :value {round(EWW_RAM.used_mem_perc, 0)})
       (metric :label ""
-	      :value {round(EWW_CPU.avg, 0)}
-	      :onchange "")
+	      :value {round(EWW_CPU.avg, 0)})
       (metric :label "󰨣"
-	      :value {round((1 - (EWW_DISK["/"].free / EWW_DISK["/"].total)) * 100, 0)}
-	      :onchange "")
+	      :value {round((1 - (EWW_DISK["/"].free / EWW_DISK["/"].total)) * 100, 0)})
       (time :label "󰥔"
 	    :value timevar)))
 #+end_src
@@ -92,12 +87,12 @@
 
 *** metric
 #+begin_src dot
-  (defwidget metric [label value onchange]
+  (defwidget metric [label value]
     (box :orientation "h"
 	 :class "metric"
-	 :space-evenly false
-      (box :class "label" label)
-      (label :class "value" :text "${value}%")))
+	 :space-evenly true
+      (box label)
+      (label :text "${value}%")))
 #+end_src
 
 *** time
@@ -105,9 +100,20 @@
   (defwidget time [label value]
     (box :class "time"
 	 :orientation "h"  
-	 :space-evenly false
-      (label :class "label":text label)
-      (label :class "value":text timevar)))
+	 :space-evenly true
+      (label :text label)
+      (label :text timevar)))
+#+end_src
+
+*** volume
+#+begin_src dot
+  (defwidget volume [label value]
+    (eventbox :onscroll "scripts/volume {}"
+      (box :class "volume"
+	   :orientation "h"
+	   :space-evenly true
+	(box label)
+	(label :text "${value}%"))))
 #+end_src
 
 ** listens
@@ -118,8 +124,8 @@
 
 ** polls
 #+begin_src dot
-  (defpoll volume :interval "1s"
-    "scripts/get_vol")
+  (defpoll volumepoll :interval "0.1s"
+    "scripts/volume")
 
   (defpoll timevar :interval "10s"
     "date '+%H:%M'")
@@ -257,13 +263,6 @@
   }
 #+end_src
 
-** value
-#+begin_src dot
-  .value {
-    padding: 0 10px 0 10px;
-  }
-#+end_src
-
 * scripts
 ** workspaces
 :properties:
@@ -383,7 +382,7 @@ appearence dinamically.
 
 #+RESULTS:
 
-** menu launcher
+** menu_launcher
 :properties:
 :header-args: :tangle scripts/menu_launcher :comments org :shebang #!/usr/bin/env bash
 :end:
@@ -401,9 +400,9 @@ appearence dinamically.
   hyprctl dispatch exec kitty
 #+end_src
 
-** get volume
+** volume
 :properties:
-:header-args: :tangle scripts/get_vol :comments org :shebang #!/usr/bin/env bash
+:header-args: :tangle scripts/volume :comments org :shebang #!/usr/bin/env bash
 :end:
 #+begin_src bash
   # .__                        
@@ -416,5 +415,11 @@ appearence dinamically.
   #   Made by Italo Guedes (Github @italoguedess) as
   #   a part of italOS (Github @italoguedess/italOS).
 
-  wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{print $2 * 100}'
+  if [ "$1" = "" ]; then
+    wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{print $2 * 100}'
+  elif [ "$1" = "up" ]; then
+    wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05+
+  elif [ "$1" = "down" ]; then
+    wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05-
+  fi
 #+end_src

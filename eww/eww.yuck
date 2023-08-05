@@ -49,19 +49,14 @@
 
 (defwidget sidestuff []
   (box :class "sidestuff" :orientation "h" :space-evenly true :halign "end" :spacing 0
-    (metric :label "󰕾"
-	    :value volume
-	    :onchange "")
-	    ;; :onchange "amixer -D pulse sset Master {}%")
+    (volume :label "󰕾"
+	    :value volumepoll)
     (metric :label ""
-	    :value {round(EWW_RAM.used_mem_perc, 0)}
-	    :onchange "")
+	    :value {round(EWW_RAM.used_mem_perc, 0)})
     (metric :label ""
-	    :value {round(EWW_CPU.avg, 0)}
-	    :onchange "")
+	    :value {round(EWW_CPU.avg, 0)})
     (metric :label "󰨣"
-	    :value {round((1 - (EWW_DISK["/"].free / EWW_DISK["/"].total)) * 100, 0)}
-	    :onchange "")
+	    :value {round((1 - (EWW_DISK["/"].free / EWW_DISK["/"].total)) * 100, 0)})
     (time :label "󰥔"
 	  :value timevar)))
 
@@ -81,21 +76,31 @@
 
 ;; metric
 
-(defwidget metric [label value onchange]
+(defwidget metric [label value]
   (box :orientation "h"
        :class "metric"
-       :space-evenly false
-    (box :class "label" label)
-    (label :class "value" :text "${value}%")))
+       :space-evenly true
+    (box label)
+    (label :text "${value}%")))
 
 ;; time
 
 (defwidget time [label value]
   (box :class "time"
        :orientation "h"  
-       :space-evenly false
-    (label :class "label":text label)
-    (label :class "value":text timevar)))
+       :space-evenly true
+    (label :text label)
+    (label :text timevar)))
+
+;; volume
+
+(defwidget volume [label value]
+  (eventbox :onscroll "scripts/volume {}"
+    (box :class "volume"
+	 :orientation "h"
+	 :space-evenly true
+      (box label)
+      (label :text "${value}%"))))
 
 ;; listens
 
@@ -104,8 +109,8 @@
 
 ;; polls
 
-(defpoll volume :interval "1s"
-  "scripts/get_vol")
+(defpoll volumepoll :interval "0.1s"
+  "scripts/volume")
 
 (defpoll timevar :interval "10s"
   "date '+%H:%M'")

@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# volume
+# :properties:
+# :header-args: :tangle scripts/volume :comments org :shebang #!/usr/bin/env bash
+# :end:
+
+# .__                        
+# |__| ______  _  ____  _  __
+# |  |/ __ \ \/ \/ /\ \/ \/ /
+# |  \  ___/\     /  \     / 
+# |__|\___  >\/\_/    \/\_/  
+#         \/                 
+
+#   Made by Italo Guedes (Github @italoguedess) as
+#   a part of italOS (Github @italoguedess/italOS).
+
+if [ "$1" = "" ]; then
+  wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{print $2 * 100}'
+elif [ "$1" = "up" ]; then
+  wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05+
+elif [ "$1" = "down" ]; then
+  wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05-
+fi
