@@ -9,9 +9,6 @@
 
 //   Made by Italo Guedes (Github @italoguedess) as
 //   a part of italOS (Github @italoguedess/italOS).
-//   workspace script heavily based on:
-//   https://github.com/saimoomedits/eww-widgets
-//   https://github.com/rxyhn/tokyo
 
 // Everforest
 
@@ -64,6 +61,7 @@ $gray2: #9DA9A0;
 .menu {
   color: $blue;
   font-size: 18px;
+  padding: 0 10px 0 10px;
 }
 
 // sidestuff
@@ -75,7 +73,7 @@ $gray2: #9DA9A0;
 // workspaces
 
 .workspaces button:hover {
-  color: #7FBBB3;
+  color: $blue;
 }
 
 // focused workspaces
@@ -100,7 +98,7 @@ $gray2: #9DA9A0;
 
 // unnocupied workspaces
 .0, .0-99 {
-  color: $gray0;
+  color: $bg5;
 }
 
 // value

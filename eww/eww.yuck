@@ -9,9 +9,6 @@
 
 ;;   Made by Italo Guedes (Github @italoguedess) as
 ;;   a part of italOS (Github @italoguedess/italOS).
-;;   workspace script heavily based on:
-;;   https://github.com/saimoomedits/eww-widgets
-;;   https://github.com/rxyhn/tokyo
 
 ;; bar
 
@@ -90,15 +87,6 @@
        :space-evenly false
     (box :class "label" label)
     (label :class "value" :text "${value}%")))
-	   ;; :active {onchange != ""}
-	   ;; :value value
-	   ;; :onchange onchange)))
-
-    ;; (scale :min 0
-    ;;        :max 101
-    ;;        :active {onchange != ""}
-    ;;        :value value
-    ;;        :onchange onchange)))
 
 ;; time
 
@@ -117,7 +105,7 @@
 ;; polls
 
 (defpoll volume :interval "1s"
-  "scripts/getvol")
+  "scripts/get_vol")
 
 (defpoll timevar :interval "10s"
   "date '+%H:%M'")

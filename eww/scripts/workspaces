@@ -17,7 +17,9 @@
 
 #   Made by Italo Guedes (Github @italoguedess) as
 #   a part of italOS (Github @italoguedess/italOS).
-#   workspace script heavily based on:
+#
+#   This script was heavily based on the following
+#   repos workspace widget implementations:
 #   https://github.com/saimoomedits/eww-widgets
 #   https://github.com/rxyhn/tokyo
 
@@ -98,7 +100,7 @@ echo "(box :class 'workspaces'
 	   :orientation 'h'
 	   :space-evenly true
 	   :halign 'start'
-	   :spacing 15
+	   :spacing 20
       (button :class \"$un$o1$f1\" :onclick 'hyprctl dispatch workspace 1' \"$ic_1\") 
       (button :class \"$un$o2$f2\" :onclick 'hyprctl dispatch workspace 2' \"$ic_2\") 
       (button :class \"$un$o3$f3\" :onclick 'hyprctl dispatch workspace 3' \"$ic_3\") 

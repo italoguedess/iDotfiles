@@ -13,10 +13,6 @@
 
   ;;   Made by Italo Guedes (Github @italoguedess) as
   ;;   a part of italOS (Github @italoguedess/italOS).
-  ;;   workspace script heavily based on:
-  ;;   https://github.com/saimoomedits/eww-widgets
-  ;;   https://github.com/rxyhn/tokyo
-
 #+end_src
 
 ** widgets
@@ -102,15 +98,6 @@
 	 :space-evenly false
       (box :class "label" label)
       (label :class "value" :text "${value}%")))
-	     ;; :active {onchange != ""}
-	     ;; :value value
-	     ;; :onchange onchange)))
-
-      ;; (scale :min 0
-      ;;        :max 101
-      ;;        :active {onchange != ""}
-      ;;        :value value
-      ;;        :onchange onchange)))
 #+end_src
 
 *** time
@@ -132,7 +119,7 @@
 ** polls
 #+begin_src dot
   (defpoll volume :interval "1s"
-    "scripts/getvol")
+    "scripts/get_vol")
 
   (defpoll timevar :interval "10s"
     "date '+%H:%M'")
@@ -172,10 +159,6 @@
 
   //   Made by Italo Guedes (Github @italoguedess) as
   //   a part of italOS (Github @italoguedess/italOS).
-  //   workspace script heavily based on:
-  //   https://github.com/saimoomedits/eww-widgets
-  //   https://github.com/rxyhn/tokyo
-
 #+end_src
 
 ** Everforest
@@ -231,6 +214,7 @@
   .menu {
     color: $blue;
     font-size: 18px;
+    padding: 0 10px 0 10px;
   }
 #+end_src
 
@@ -244,7 +228,7 @@
 ** workspaces
 #+begin_src dot
   .workspaces button:hover {
-    color: #7FBBB3;
+    color: $blue;
   }
 
   // focused workspaces
@@ -269,7 +253,7 @@
 
   // unnocupied workspaces
   .0, .0-99 {
-    color: $gray0;
+    color: $bg5;
   }
 #+end_src
 
@@ -299,7 +283,9 @@ appearence dinamically.
 
   #   Made by Italo Guedes (Github @italoguedess) as
   #   a part of italOS (Github @italoguedess/italOS).
-  #   workspace script heavily based on:
+  #
+  #   This script was heavily based on the following
+  #   repos workspace widget implementations:
   #   https://github.com/saimoomedits/eww-widgets
   #   https://github.com/rxyhn/tokyo
 
@@ -380,7 +366,7 @@ appearence dinamically.
 	     :orientation 'h'
 	     :space-evenly true
 	     :halign 'start'
-	     :spacing 15
+	     :spacing 20
 	(button :class \"$un$o1$f1\" :onclick 'hyprctl dispatch workspace 1' \"$ic_1\") 
 	(button :class \"$un$o2$f2\" :onclick 'hyprctl dispatch workspace 2' \"$ic_2\") 
 	(button :class \"$un$o3$f3\" :onclick 'hyprctl dispatch workspace 3' \"$ic_3\") 
@@ -402,18 +388,33 @@ appearence dinamically.
 :header-args: :tangle scripts/menu_launcher :comments org :shebang #!/usr/bin/env bash
 :end:
 #+begin_src bash
-  ;; .__                        
-  ;; |__| ______  _  ____  _  __
-  ;; |  |/ __ \ \/ \/ /\ \/ \/ /
-  ;; |  \  ___/\     /  \     / 
-  ;; |__|\___  >\/\_/    \/\_/  
-  ;;         \/                 
+  # .__                        
+  # |__| ______  _  ____  _  __
+  # |  |/ __ \ \/ \/ /\ \/ \/ /
+  # |  \  ___/\     /  \     / 
+  # |__|\___  >\/\_/    \/\_/  
+  #         \/                 
 
-  ;;   Made by Italo Guedes (Github @italoguedess) as
-  ;;   a part of italOS (Github @italoguedess/italOS).
-  ;;   workspace script heavily based on:
-  ;;   https://github.com/saimoomedits/eww-widgets
-  ;;   https://github.com/rxyhn/tokyo
+  #   Made by Italo Guedes (Github @italoguedess) as
+  #   a part of italOS (Github @italoguedess/italOS).
 
   hyprctl dispatch exec kitty
+#+end_src
+
+** get volume
+:properties:
+:header-args: :tangle scripts/get_vol :comments org :shebang #!/usr/bin/env bash
+:end:
+#+begin_src bash
+  # .__                        
+  # |__| ______  _  ____  _  __
+  # |  |/ __ \ \/ \/ /\ \/ \/ /
+  # |  \  ___/\     /  \     / 
+  # |__|\___  >\/\_/    \/\_/  
+  #         \/                 
+
+  #   Made by Italo Guedes (Github @italoguedess) as
+  #   a part of italOS (Github @italoguedess/italOS).
+
+  wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{print $2 * 100}'
 #+end_src

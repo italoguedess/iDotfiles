@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# menu launcher
+# get volume
 # :properties:
-# :header-args: :tangle scripts/menu_launcher :comments org :shebang #!/usr/bin/env bash
+# :header-args: :tangle scripts/get_vol :comments org :shebang #!/usr/bin/env bash
 # :end:
 
 # .__                        
@@ -14,4 +14,4 @@
 #   Made by Italo Guedes (Github @italoguedess) as
 #   a part of italOS (Github @italoguedess/italOS).
 
-hyprctl dispatch exec kitty
+wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{print $2 * 100}'
