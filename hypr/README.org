@@ -9,7 +9,7 @@
 
   # Execute your favorite apps at launch
   # exec-once = waybar & hyprpaper & firefox
-  exec-once = waybar & swaybg -i $HOME/Pictures/wallpapers/nix-glow-black.png & eww open bar
+  exec-once = waybar & swaybg -i $HOME/Pictures/wallpapers/nix-glow-black.png & eww -c ~/.config/eww/bar open bar
 #+end_src
 
 * sourcing and default vars
@@ -47,7 +47,7 @@ general {
     # See https://wiki.hyprland.org/Configuring/Variables/ for more
 
     gaps_in = 5
-    gaps_out = 20
+    gaps_out = 10
     border_size = 0
     # col.active_border = rgba(33ccffee) rgba(00ff99ee) 45deg
     # col.inactive_border = rgba(595959aa)

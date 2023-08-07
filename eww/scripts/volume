@@ -15,9 +15,11 @@
 #   a part of italOS (Github @italoguedess/italOS).
 
 if [ "$1" = "" ]; then
-  wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{print $2 * 100}'
+  wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{print $2 * 100"%", $3}'
 elif [ "$1" = "up" ]; then
   wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05+
 elif [ "$1" = "down" ]; then
   wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05-
+elif [ "$1" = "mute_toggle" ]; then
+  wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
 fi

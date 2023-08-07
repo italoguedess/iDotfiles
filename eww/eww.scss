@@ -44,7 +44,7 @@ $gray2: #9DA9A0;
 }
 
 .bar_class {
-  background-color: rgba(0, 0, 0, 1); // 100% transparency
+  background-color: rgba(0, 0, 0, 0); // 100% transparency
 }
 
 .center_modules, .right_modules, .left_modules {
@@ -61,7 +61,7 @@ $gray2: #9DA9A0;
 .menu {
   color: $blue;
   font-size: 18px;
-  padding: 0 10px 0 10px;
+  padding: 0 5px 0 5px;
 }
 
 // sidestuff
@@ -71,6 +71,10 @@ $gray2: #9DA9A0;
 }
 
 // workspaces
+
+.workspaces {
+  padding: 0 5px 0 5px;
+}
 
 .workspaces button:hover {
   color: $blue;
@@ -99,4 +103,13 @@ $gray2: #9DA9A0;
 // unnocupied workspaces
 .0, .0-99 {
   color: $bg5;
+}
+
+// label and value
+
+.label {
+  padding: 0 5px 0 5px;
+}
+.value {
+  padding: 0 5px 0 5px;
 }

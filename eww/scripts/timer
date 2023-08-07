@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+# timer
+# :properties:
+# :header-args: :tangle scripts/timer :comments org :shebang #!/usr/bin/env bash
+# :end:
+
+# .__                        
+# |__| ______  _  ____  _  __
+# |  |/ __ \ \/ \/ /\ \/ \/ /
+# |  \  ___/\     /  \     / 
+# |__|\___  >\/\_/    \/\_/  
+#         \/                 
+
+#   Made by Italo Guedes (Github @italoguedess) as
+#   a part of italOS (Github @italoguedess/italOS).
+
+min=25
+sec=00
+
+echo "$min:$sec"
+while [ true ]; do
+  # checking if the toggle is set
+  if [ "$(eww -c $(pwd) state | awk '/toggletimervar/ {print $2}')" = "true" ]; then
+      while [ $min -ge 0 ]; do
+	  while [ $sec -ge 0 ]; do
+	      echo "$min:$sec"
+	      # checks the value of the toggle
+	      # if true the counter is active
+	      # if void resets the counter
+	      # if false doesn't count nor reset
+	      toggle_state=$(eww -c $(pwd) state | awk '/toggletimervar/ {print $2}')
+	      if [ "${toggle_state}" = "true" ]; then
+		  sec=$((sec-1)) 
+	      elif [ "${toggle_state}" = "" ]; then
+		  ./scripts/timer
+	      else
+		  ""
+	      fi
+
+	      sleep 1
+	  done
+	  min=$((min-1))
+	  sec=59
+      done
+      # after the counting is done resets the toggle
+      eww -c $(pwd) update toggletimervar=""
+  fi
+  # rest a little bit
+  sleep 1
+done

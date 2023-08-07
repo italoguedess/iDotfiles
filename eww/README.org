@@ -1,8 +1,9 @@
-* eww.yuck
+* bar
+** eww.yuck
 :properties:
 :header-args: :tangle eww.yuck :comments org
 :end:
-** About
+*** About
 #+begin_src dot
   ;; .__                        
   ;; |__| ______  _  ____  _  __
@@ -15,8 +16,8 @@
   ;;   a part of italOS (Github @italoguedess/italOS).
 #+end_src
 
-** widgets
-*** bar
+*** widgets
+**** bar
 #+begin_src dot
   (defwidget bar []
     (box :orientation "h"
@@ -30,7 +31,10 @@
 	 :space-evenly false
 	 :halign "start"
 	 :class "left_modules"
-	 (menu)))
+	 (menu)
+	 (timer :label "󱎫"
+		:value timerlisten
+		:toggle toggletimervar)))
 
   (defwidget center []
     (box :orientation "h"
@@ -47,35 +51,35 @@
 	 (sidestuff)))
 #+end_src
 
-*** menu
+**** menu
 #+begin_src dot
   (defwidget menu []
     (box (button :class "menu" :onclick "scripts/menu_launcher" "󱄅")))
 #+end_src
 
-*** sidestuff
+**** sidestuff
 #+begin_src dot
   (defwidget sidestuff []
-    (box :class "sidestuff" :orientation "h" :space-evenly true :halign "end" :spacing 0
+    (box :class "sidestuff" :orientation "h" :space-evenly false :halign "end" :spacing 20
       (volume :label "󰕾"
 	      :value volumepoll)
       (metric :label ""
 	      :value {round(EWW_RAM.used_mem_perc, 0)})
       (metric :label ""
 	      :value {round(EWW_CPU.avg, 0)})
-      (metric :label "󰨣"
+      (metric :label "󰋊"
 	      :value {round((1 - (EWW_DISK["/"].free / EWW_DISK["/"].total)) * 100, 0)})
       (time :label "󰥔"
-	    :value timevar)))
+	    :value timepoll)))
 #+end_src
 
-*** workspaces
+**** workspaces
 #+begin_src dot
   (defwidget workspaces []
     (literal :content workspacespoll)) 
 #+end_src
 
-*** music
+**** music
 #+begin_src dot
   (defwidget music []
     (box :class "music"
@@ -85,56 +89,80 @@
       {music != "" ? "🎵${music}" : ""}))
 #+end_src
 
-*** metric
+**** metric
 #+begin_src dot
   (defwidget metric [label value]
     (box :orientation "h"
 	 :class "metric"
-	 :space-evenly true
-      (box label)
-      (label :text "${value}%")))
+	 :space-evenly false
+      (box :class "label" label)
+      (label :class "value" :text "${value}%")))
 #+end_src
 
-*** time
+**** time
 #+begin_src dot
   (defwidget time [label value]
     (box :class "time"
 	 :orientation "h"  
-	 :space-evenly true
-      (label :text label)
-      (label :text timevar)))
+	 :space-evenly false
+      (box :class "label" label)
+      (label :class "value" :text value)))
 #+end_src
 
-*** volume
+**** timer
+#+begin_src dot
+  (defwidget timer [label value toggle]
+    (box :class "timer"
+	 :orientation "h"
+	 :space-evenly false
+      ;; toggletimervar = true means counter active
+      ;; toggletimervar = "" means resetting the counter
+      ;; toggletimervar = false means counter inactive (paused)
+      ;; ( see ./scripts/timer )
+      (button :onclick "eww -c $(pwd) update toggletimervar='true'" 
+	      :onrightclick "eww -c $(pwd) update toggletimervar='false'"
+	      :onmiddleclick "eww -c $(pwd) update toggletimervar=''"
+	  (box :class "label" label 
+	    (label :class "value" :text "${value}")))))
+#+end_src
+**** volume
 #+begin_src dot
   (defwidget volume [label value]
     (eventbox :onscroll "scripts/volume {}"
+	      :onclick "scripts/volume mute_toggle"
       (box :class "volume"
 	   :orientation "h"
-	   :space-evenly true
-	(box label)
-	(label :text "${value}%"))))
+	   :space-evenly false
+	(box :class "label" label)
+	(label :class "value" :text "${value}"))))
 #+end_src
 
-** listens
+*** listens
 #+begin_src dot
   (deflisten music :initial ""
     "playerctl --follow metadata --format '{{ artist }} - {{ title }}' || true")
+
+  (deflisten timerlisten :initial "25:00" "scripts/timer")
 #+end_src
 
-** polls
+*** polls
 #+begin_src dot
-  (defpoll volumepoll :interval "0.1s"
+  (defpoll volumepoll :interval "0.3s"
     "scripts/volume")
 
-  (defpoll timevar :interval "10s"
+  (defpoll timepoll :interval "10s"
     "date '+%H:%M'")
 
-  (defpoll workspacespoll :interval "0.1s"
+  (defpoll workspacespoll :interval "1s"
     "scripts/workspaces")
 #+end_src
 
-** windows
+*** vars
+#+begin_src dot
+  (defvar toggletimervar false)
+#+end_src
+
+*** windows
 #+begin_src dot
   (defwindow bar
     :monitor 0
@@ -150,11 +178,11 @@
     (bar))
 #+end_src
 
-* eww.scss
+** eww.scss
 :properties:
 :header-args: :tangle eww.scss :comments org
 :end:
-** About
+*** About
 #+begin_src dot
   // .__                        
   // |__| ______  _  ____  _  __
@@ -167,7 +195,7 @@
   //   a part of italOS (Github @italoguedess/italOS).
 #+end_src
 
-** Everforest
+*** Everforest
 #+begin_src dot
   $bg_dim: #1E2326;
   $bg0: #272E33;
@@ -194,7 +222,7 @@
   $gray2: #9DA9A0;
 #+end_src
 
-** *
+*** *
 #+begin_src dot
   * {
     all: unset; //Unsets everything so you can style everything from scratch
@@ -202,7 +230,7 @@
   }
 
   .bar_class {
-    background-color: rgba(0, 0, 0, 1); // 100% transparency
+    background-color: rgba(0, 0, 0, 0); // 100% transparency
   }
 
   .center_modules, .right_modules, .left_modules {
@@ -215,24 +243,28 @@
   }
 #+end_src
 
-** menu
+*** menu
 #+begin_src dot
   .menu {
     color: $blue;
     font-size: 18px;
-    padding: 0 10px 0 10px;
+    padding: 0 5px 0 5px;
   }
 #+end_src
 
-** sidestuff
+*** sidestuff
 #+begin_src dot
 .sidestuff {
   padding-right: 0px;
 }
 #+end_src
 
-** workspaces
+*** workspaces
 #+begin_src dot
+  .workspaces {
+    padding: 0 5px 0 5px;
+  }
+
   .workspaces button:hover {
     color: $blue;
   }
@@ -263,8 +295,18 @@
   }
 #+end_src
 
-* scripts
-** workspaces
+*** label and value
+#+begin_src dot
+  .label {
+    padding: 0 5px 0 5px;
+  }
+  .value {
+    padding: 0 5px 0 5px;
+  }
+#+end_src
+
+** scripts
+*** workspaces
 :properties:
 :header-args: :tangle scripts/workspaces :comments org :shebang #!/usr/bin/env bash
 :end:
@@ -382,7 +424,7 @@ appearence dinamically.
 
 #+RESULTS:
 
-** menu_launcher
+*** menu_launcher
 :properties:
 :header-args: :tangle scripts/menu_launcher :comments org :shebang #!/usr/bin/env bash
 :end:
@@ -400,7 +442,7 @@ appearence dinamically.
   hyprctl dispatch exec kitty
 #+end_src
 
-** volume
+*** volume
 :properties:
 :header-args: :tangle scripts/volume :comments org :shebang #!/usr/bin/env bash
 :end:
@@ -416,10 +458,66 @@ appearence dinamically.
   #   a part of italOS (Github @italoguedess/italOS).
 
   if [ "$1" = "" ]; then
-    wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{print $2 * 100}'
+    wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{print $2 * 100"%", $3}'
   elif [ "$1" = "up" ]; then
     wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05+
   elif [ "$1" = "down" ]; then
     wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05-
+  elif [ "$1" = "mute_toggle" ]; then
+    wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
   fi
 #+end_src
+
+*** timer
+:properties:
+:header-args: :tangle scripts/timer :comments org :shebang #!/usr/bin/env bash
+:end:
+#+begin_src bash
+  # .__                        
+  # |__| ______  _  ____  _  __
+  # |  |/ __ \ \/ \/ /\ \/ \/ /
+  # |  \  ___/\     /  \     / 
+  # |__|\___  >\/\_/    \/\_/  
+  #         \/                 
+
+  #   Made by Italo Guedes (Github @italoguedess) as
+  #   a part of italOS (Github @italoguedess/italOS).
+
+  min=25
+  sec=00
+
+  echo "$min:$sec"
+  while [ true ]; do
+    # checking if the toggle is set
+    if [ "$(eww -c $(pwd) state | awk '/toggletimervar/ {print $2}')" = "true" ]; then
+	while [ $min -ge 0 ]; do
+	    while [ $sec -ge 0 ]; do
+		echo "$min:$sec"
+		# checks the value of the toggle
+		# if true the counter is active
+		# if void resets the counter
+		# if false doesn't count nor reset
+		toggle_state=$(eww -c $(pwd) state | awk '/toggletimervar/ {print $2}')
+		if [ "${toggle_state}" = "true" ]; then
+		    sec=$((sec-1)) 
+		elif [ "${toggle_state}" = "" ]; then
+		    ./scripts/timer
+		else
+		    ""
+		fi
+
+		sleep 1
+	    done
+	    min=$((min-1))
+	    sec=59
+	done
+	# after the counting is done resets the toggle
+	eww -c $(pwd) update toggletimervar=""
+    fi
+    # rest a little bit
+    sleep 1
+  done
+#+end_src
+
+* dashboard
+
