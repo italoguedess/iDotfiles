@@ -141,10 +141,10 @@
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
       vim
-      emacs
       polybarFull
       eww-wayland
       redshift
+      (import ./emacs.nix { inherit pkgs; })
       gammastep
       git
       kitty
@@ -153,6 +153,7 @@
       htop
       feh
       swaybg
+      texlive.combined.scheme-full
     ];
   };
 
@@ -166,10 +167,13 @@
 
 #+end_src
 
-* Unfree, system and font packages
+* Unfree, flakes, system and font packages
 #+begin_src dot
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+
+  # Adding flakes
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -219,4 +223,59 @@
     system.stateVersion = "23.05"; # Did you read the comment?
 
   }
+#+end_src
+
+* emacs.nix
+#+begin_src dot :tangle emacs.nix
+  { pkgs ? import <nixpkgs> {} }:
+
+  let
+    myEmacs = pkgs.emacs;
+    emacsWithPackages = (pkgs.emacsPackagesFor myEmacs).emacsWithPackages;
+  in
+    emacsWithPackages ((with pkgs.emacsPackages; [ 
+      # From main packages set
+      emacs
+      use-package
+      bind-key
+      # bling
+      modus-themes
+      doom-modeline
+      all-the-icons
+      # completion
+      counsel
+      ivy-rich
+      which-key
+      helpful
+      # IDEmacs
+      evil
+      evil-collection
+      annalist
+      evil-smartparens
+      projectile
+      magit
+      # adding modes
+      julia-mode
+      ob-julia-vterm
+      nix-mode
+      # orgmode
+      org
+      org-re-reveal
+      org-bullets
+      # lsp plugins and language servers
+      lsp-mode
+      company
+      flycheck
+      yasnippet
+      yasnippet-snippets
+      smartparens
+    ])
+
+    ++ (with pkgs; [
+      nil
+      ccls
+      texlab
+      pylyzer
+      gdb
+  ]))
 #+end_src

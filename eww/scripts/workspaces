@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# workspaces
+
 # :properties:
 # :header-args: :tangle scripts/workspaces :comments org :shebang #!/usr/bin/env bash
 # :end:

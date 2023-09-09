@@ -483,7 +483,7 @@ appearence dinamically.
   #   Made by Italo Guedes (Github @italoguedess) as
   #   a part of italOS (Github @italoguedess/italOS).
 
-  min=25
+  min=50
   sec=00
 
   echo "$min:$sec"
@@ -492,7 +492,10 @@ appearence dinamically.
     if [ "$(eww -c $(pwd) state | awk '/toggletimervar/ {print $2}')" = "true" ]; then
 	while [ $min -ge 0 ]; do
 	    while [ $sec -ge 0 ]; do
-		echo "$min:$sec"
+		# always prints minutes and seconds with two digits
+		# using a leading 0 if necessary
+		printf "%02d:%02d\n" $min $sec
+
 		# checks the value of the toggle
 		# if true the counter is active
 		# if void resets the counter
@@ -511,8 +514,9 @@ appearence dinamically.
 	    min=$((min-1))
 	    sec=59
 	done
-	# after the counting is done resets the toggle
+	# after the counting is done resets the timer
 	eww -c $(pwd) update toggletimervar=""
+	./scripts/timer
     fi
     # rest a little bit
     sleep 1

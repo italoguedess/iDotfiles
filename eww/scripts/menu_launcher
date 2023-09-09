@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# menu_launcher
+
 # :properties:
 # :header-args: :tangle scripts/menu_launcher :comments org :shebang #!/usr/bin/env bash
 # :end:

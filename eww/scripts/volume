@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# volume
+
 # :properties:
 # :header-args: :tangle scripts/volume :comments org :shebang #!/usr/bin/env bash
 # :end:

@@ -1,5 +1,3 @@
-# About
-
 #  _ _   _ _      
 # (_) \ | (_)     
 #  _|  \| |___  __
@@ -9,8 +7,6 @@
 #
 #  Made by Italo Guedes (Github @italoguedess) as
 #  a part of italOS (Github @italoguedess/italOS).
-
-# Repository and hardware configuration
 
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
@@ -23,8 +19,6 @@
     [ # Include the results of the hardware scan.
       /etc/nixos/hardware-configuration.nix
     ];
-
-# Bootloader, networking and timezone/locale
 
 # Bootloader.
 boot.loader.systemd-boot.enable = true;
@@ -65,8 +59,6 @@ i18n.extraLocaleSettings = {
   LC_TIME = "pt_BR.UTF-8";
 };
 
-# Display manager, Desktop environments, WMs and WCs
-
 # Enable the X11 windowing system, sddm, plasma and i3-rounded.
 services.xserver = { 
   enable = true;
@@ -82,8 +74,6 @@ programs.hyprland = {
   xwayland.enable = true;
 };
 
-# Keymap
-
 # Configure keymap in X11
 services.xserver = {
   layout = "br";
@@ -92,8 +82,6 @@ services.xserver = {
 
 # Configure console keymap
 console.keyMap = "br-abnt2";
-
-# Printing and audio stuff
 
 # Enable CUPS to print documents.
 services.printing.enable = true;
@@ -114,12 +102,8 @@ services.pipewire = {
   #media-session.enable = true;
 };
 
-# Touchpad
-
 # Enable touchpad support (enabled default in most desktopManager).
 # services.xserver.libinput.enable = true;
-
-# User account and packages
 
 # Define a user account. Don't forget to set a password with ‘passwd’.
 users.users.user = {
@@ -128,10 +112,10 @@ users.users.user = {
   extraGroups = [ "networkmanager" "wheel" ];
   packages = with pkgs; [
     vim
-    emacs
     polybarFull
     eww-wayland
     redshift
+    (import ./emacs.nix { inherit pkgs; })
     gammastep
     git
     kitty
@@ -140,19 +124,19 @@ users.users.user = {
     htop
     feh
     swaybg
+    texlive.combined.scheme-full
   ];
 };
-
-# Auto login
 
 # Enable automatic login for the user.
 # services.xserver.displayManager.autoLogin.enable = true;
 # services.xserver.displayManager.autoLogin.user = "user";
 
-# Unfree, system and font packages
-
 # Allow unfree packages
 nixpkgs.config.allowUnfree = true;
+
+# Adding flakes
+nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
 # List packages installed in system profile. To search, run:
 # $ nix search wget
@@ -165,8 +149,6 @@ fonts.fonts = with pkgs; [
   nerdfonts
   jetbrains-mono
 ];
-
-# SUID, OpenSSH daemon and firewall
 
 # Some programs need SUID wrappers, can be configured further or are
 # started in user sessions.
@@ -186,8 +168,6 @@ fonts.fonts = with pkgs; [
 # networking.firewall.allowedUDPPorts = [ ... ];
 # Or disable the firewall altogether.
 # networking.firewall.enable = false;
-
-# System version
 
 # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
