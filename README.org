@@ -1,19 +1,23 @@
-#+title: italOS dotfiles
-#+description: The configuration files I use.
-#+author: Italo Guedes
+* iDotfiles
+  The configuration files I use ;)
 
-* Table of contents :toc:
-- [[i3wm]]
-- [[Emacs]]
-- [[Polybar]]
-- [[NixOS]]
+** Alacritty
+   A blazing fast GPU-accelerated terminal emulator.
 
+   I simply configure it to use the ~JetBrainsMono~ nerd font.
+** Bspwm
+  So far the best window manager I found.
+  The dotfile simply defines some window rules while the bulk of the keybindings is done through the ~sxhkd~ dotfile.
 
-* i3wm
-The i3wm configuration files are stored in [[file:i3/README.org]].
+  Its dotfile is used to launch the following applications:
+  - sxhkd
+  - polybar
+  - picom
+  - feh
+  - redshift
 
-* Emacs
-I have a repo dedicated for my emacs config ;) [[https://github.com/italoguedess/iMacs]]!
+** Polybar
+   A really good and easy to hack standalone bar for window manager setups.
 
 * Polybar
 See [[file:polybar/README.org]].
