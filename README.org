@@ -19,9 +19,3 @@
 ** Polybar
    A really good and easy to hack standalone bar for window manager setups.
 
-* Polybar
-See [[file:polybar/README.org]].
-
-* NixOS
-See [[file:nixos/README.org]]
-
